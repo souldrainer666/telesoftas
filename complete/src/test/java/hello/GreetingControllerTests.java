@@ -15,7 +15,6 @@
  */
 package hello;
 
-import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -50,49 +49,6 @@ public class GreetingControllerTests {
         this.mockMvc.perform(get("/greeting").param("name", "Spring Community"))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").value("Hello, Spring Community!"));
-    }
-
-    @Test
-    public void testOneItem() throws Exception {
-
-        this.mockMvc.perform(get("/details")
-                .param("name", "Aged Brie"))
-                .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].id").value("2"))
-                .andExpect(jsonPath("$.[0].name").value("Aged Brie"));
-    }
-
-    @Test
-    public  void  testIdCall() throws Exception {
-        this.mockMvc.perform(get("/list")
-                .param("id", "1"))
-                .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].id").value("1"))
-                .andExpect(jsonPath("$.[0].name").value("+5 Dexterity Vest"));
-    }
-
-    @Test
-    public void testFewItems() throws Exception {
-
-        this.mockMvc.perform(get("/details")
-                .param("name", "Backstage passes to a TAFKAL80ETC concert"))
-                .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.[0].id").value("6"))
-                .andExpect(jsonPath("$.[0].name").value("Backstage passes to a TAFKAL80ETC concert"))
-                .andExpect(jsonPath("$.[1].id").value("7"))
-                .andExpect(jsonPath("$.[1].sellIn").value("8"))
-                .andExpect(jsonPath("$.[2].id").value("8"))
-                .andExpect(jsonPath("$.[2].quality").value("50"))
-                .andExpect(jsonPath("$.*", hasSize(3)));
-    }
-
-    @Test
-    public void testNoItems() throws Exception {
-
-        this.mockMvc.perform(get("/details")
-                .param("name", "noup"))
-                .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.*", hasSize(0)));
     }
 
 }
